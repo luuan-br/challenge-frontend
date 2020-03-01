@@ -1,0 +1,43 @@
+.card {
+	background-color: #82c6cf;
+	width: 100%;
+	max-width: 400px;
+	border-radius: 10px;
+	margin-bottom: 30px;
+	overflow: hidden;
+}
+
+.header {
+	background-color: #cdf1f8;
+	padding: 10px 30px;
+}
+
+.header h2 {
+	font-size: 1.2em;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	padding: 10px 30px;
+	column-gap: 30px;
+	color: #fff;
+	text-transform: capitalize;
+}
+
+img {
+	max-height: 24px;
+}
+
+.align-center {
+	display: flex;
+	flex-direction: row;
+	height: 40px;
+	align-items: center;
+	justify-items: center;
+	align-content: center;
+}
+
+.align-center img {
+	margin-right: 10px;
+}
