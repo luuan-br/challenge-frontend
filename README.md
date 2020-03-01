@@ -11,4 +11,4 @@
  -> caso voce ja esteja execultando o back-end e mesmo assim ainda
  nao recebeu resposta no front-end.
 
-verifique a urlBase em @src/services/api alterando para http://localhost:8000
+verifique a urlBase em @src/services/api alterando para http://localhost:8000/api
