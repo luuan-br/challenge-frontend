@@ -1,7 +1,19 @@
 .main-header {
-	margin-bottom: 60px;
+	box-sizing: border-box;
+	margin-bottom: 2rem;
 	background-color: #64979e;
 	color: #fff;
-	padding: 50px;
+	padding: 2rem 3.85rem;
 	margin-top: 0;
+	font-size: 1.7rem;
+	position: sticky;
+	top: 0;
+	width: 100%;
+}
+
+@media (max-width: 850px) {
+	.main-header {
+		padding: 2rem 0.75rem;
+		font-size: 1.3rem;
+	}
 }

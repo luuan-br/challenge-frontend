@@ -5,6 +5,9 @@ import { api } from './services/api';
 
 import Header from './components/Header';
 import Card from './components/Card';
+import Input from './components/Input';
+
+import filter from './assets/filter.png';
 
 function App() {
 	const [data, setDate] = useState([]);
@@ -16,6 +19,7 @@ function App() {
 		date_min: dateMin,
 		date_max: dateMax
 	});
+	const [error, setError] = useState(null);
 
 	const handleClick = e => {
 		e.preventDefault();
@@ -28,54 +32,66 @@ function App() {
 
 	useEffect(() => {
 		api.post('locales/search', params)
-			.then(res => setDate(res.data))
-			.catch(res => console.log(`${res}`));
+			.then(res => {
+				const response = res.data;
+				if (response.code) {
+					setError(response);
+					setDate([]);
+				} else {
+					setError(null);
+					setDate(response);
+				}
+			})
+			.catch(error =>
+				setError({ message: 'There was an unexpected error' })
+			);
 	}, [params]);
 
 	return (
 		<div className='app'>
-			<form className='form'>
-				<label htmlFor='locale'>
-					<span>Local:</span>
-					<input
-						type='text'
-						name='name'
-						value={locale}
-						onChange={e => setLocale(e.target.value)}
-					/>
-				</label>
-				<label htmlFor='date_min'>
-					<span>Data minima:</span>
-					<input
-						type='date'
-						name='date_min'
-						value={dateMin}
-						min='2017-02-01'
-						max='2017-02-07'
-						onChange={e => setDateMin(e.target.value)}
-					/>
-				</label>
-				<label htmlFor='date_max'>
-					<span>Data maxima:</span>
-					<input
-						type='date'
-						name='date_max'
-						value={dateMax < dateMin ? dateMin : dateMax}
-						min='2017-02-01'
-						max='2017-02-07'
-						onChange={e => setDateMax(e.target.value)}
-					/>
-				</label>
+			{error && <div className='warning-erro'>{error.message} </div>}
+			<form className='form' id='filter'>
+				<Input
+					label='Local:'
+					type='text'
+					value={locale}
+					onChange={e => setLocale(e.target.value)}
+				/>
+				<Input
+					label='Data minima:'
+					type='date'
+					name='date_min'
+					value={dateMin}
+					min='2017-02-01'
+					max='2017-02-07'
+					onChange={e => setDateMin(e.target.value)}
+				/>
+				<Input
+					label='Data maxima:'
+					type='date'
+					name='date_max'
+					value={dateMax < dateMin ? dateMin : dateMax}
+					min='2017-02-01'
+					max='2017-02-07'
+					onChange={e => setDateMax(e.target.value)}
+				/>
 				<button onClick={handleClick}>Buscar</button>
 			</form>
 
-			<Header data={data.locale} />
+			{!error && <Header data={data.locale} />}
+
 			<section className='container'>
 				{data &&
 					data.weathers &&
-					data.weathers &&
 					data.weathers.map(res => <Card key={res.id} data={res} />)}
 			</section>
+			<a
+				href='#filter'
+				className='action-button'
+				title='filtrar resultados'
+			>
+				<img src={filter} alt='filtrar resultados' />
+			</a>
 		</div>
 	);
 }
